@@ -1,0 +1,15 @@
+---
+name: Backup some home directories and files
+metadata:
+  bin: "/usr/bin/rsync"
+  args: "-avzP --no-links"
+  compress: false
+backupDestination: /media/Some/Backup/Drive
+backupPaths:
+  - /var/www/html           # backup folders
+  - /home/your_user/.bashrc # backup files (hidden ones too!)
+  - /home/your_user         # backup your entire home folder!
+  - /var/log/dmesg*           # file globbing support
+ignorePatterns:
+  - .git
+  - '*.jpg'
