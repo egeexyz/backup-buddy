@@ -1,0 +1,39 @@
+{
+  "name": "backup-buddy",
+  "version": "0.1.0",
+  "description": "Back up your things with rsync!",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "backup-buddy": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egeexyz/backup-buddy.git"
+  },
+  "author": "Brian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/egeexyz/backup-buddy/issues"
+  },
+  "homepage": "https://github.com/egeexyz/backup-buddy#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "yaml": "^2.3.2"
+  },
+  "devDependencies": {
+    "cucumber": "^6.0.7",
+    "eslint": "^8.56.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
