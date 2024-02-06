@@ -1,17 +1,20 @@
 {
   "name": "backup-buddy",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "description": "Back up your things with rsync!",
   "type": "module",
   "main": "dist/index.js",
-  "bin": {
+  "bin": { 
     "backup-buddy": "dist/index.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "node_modules/.bin/cucumber-js"
+    "build": "cp -rf src/*.js dist/",
+    "test": "node_modules/.bin/cucumber-js",
+    "push": "npm run clean && npm run build && npm publish",
+    "clean": "rm -rf dist/* && rm -rf .node_modules"
   },
   "repository": {
     "type": "git",
