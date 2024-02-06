@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "cucumber-js"
+    "test": "node_modules/.bin/cucumber-js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "yaml": "^2.3.2"
   },
   "devDependencies": {
-    "cucumber": "^6.0.7",
+    "@cucumber/cucumber": "^10.3.1",
     "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-standard": "^17.1.0",
