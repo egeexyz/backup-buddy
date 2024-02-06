@@ -1,18 +1,13 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable require-jsdoc */
 import fs from 'fs'
 import path from 'path'
 import yaml from 'yaml'
 import chalk from 'chalk'
 import { spawn } from 'child_process'
 
-// Bb's way of managing the state of a backup is a sane
-// and easy to read-and-parse way.
 export default class BackupManager {
   name; cmd; workdir
   constructor(jobFilePath) {
-    const jobDefinitionContents = fs.readFileSync(jobFilePath, 'utf8')
-    const jobDefinition = yaml.parse(jobDefinitionContents)
+    const jobDefinition = yaml.parse(fs.readFileSync(jobFilePath, 'utf8'))
     this.backupName = jobDefinition.name
     this.backupDestination = jobDefinition.backupDestination
     this.backupPaths = jobDefinition.backupPaths
@@ -33,11 +28,14 @@ export default class BackupManager {
       })
 
       childSpawn.stderr.on('data', data => {
+        //TODO: Collect these in a list and display em at the end
         console.log(chalk.red(data.toString()))
       })
 
       childSpawn.on('close', (code) => {
+        //TODO: Implement better error reporting
         console.log('Command exited with code:', code)
+        resolve(code)
       })
     })
   }
