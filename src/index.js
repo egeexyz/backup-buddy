@@ -1,7 +1,10 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable require-jsdoc */
+#!/usr/bin/env node
 import process from 'process'
 import BackupManager from './backupManager.js'
 
-const backupObj = new BackupManager(process.argv[2])
-backupObj.backup()
+if (process.argv[2]) {
+    const backupObj = new BackupManager(process.argv[2])
+    backupObj.backup()
+} else {
+    console.error('Pass me a yaml file to parse!')
+}
