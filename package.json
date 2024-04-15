@@ -4,7 +4,7 @@
   "description": "Back up your things with rsync!",
   "type": "module",
   "main": "dist/index.js",
-  "bin": { 
+  "bin": {
     "backup-buddy": "dist/index.js"
   },
   "files": [
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/egeexyz/backup-buddy#readme",
   "dependencies": {
     "chalk": "^4.1.2",
+    "tall": "^8.0.0",
     "yaml": "^2.3.2"
   },
   "devDependencies": {
