@@ -15,9 +15,9 @@ From this:
 ```yaml
 ---
 name: "My Backup"
-backupDestination: "you@nas.local:/backups/egee/Documents"
+backupDestination: "you@nas.local:/path/to/backup_destination"
 backupPaths:
-  - "/home/egee/Documents"
+  - "/path/to/dir_or_file"
 ```
 
 To this:
@@ -25,10 +25,12 @@ To this:
 ```yaml
 ---
 name: "My Restore"
-backupDestination: "/home/egee/Documents"
+backupDestination: "/path/to/restore_destination"
 backupPaths:
-  - "you@nas.local:/backups/egee/Documents"
+  - "you@nas.local:/path/to/dir_or_file"
 ```
+
+Canonically, it is a backup tool. Semantically, whether it's a "backup" or a "restore" is up to the eyes of the beholder.
 
 ## What It Doesn't
 
