@@ -23,4 +23,4 @@ jobs:
         run: rsync --version | head -1
 
       - name: Run test suite and linters
-        run: bundle exec rake
+        run: bundle install && bundle exec rake
