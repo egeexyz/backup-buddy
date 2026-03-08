@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Verify rsync is available
+        run: rsync --version | head -1
+
+      - name: Run unit tests
+        run: bundle exec rspec spec/unit
+
+      - name: Run integration tests
+        run: bundle exec rspec spec/integration

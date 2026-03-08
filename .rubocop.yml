@@ -1,0 +1,19 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 3.1
+
+# Don't bother us about specs or rakes
+Metrics/BlockLength: { Exclude: ['spec/**/*', 'Rakefile'] }
+
+# Or these
+Metrics/ClassLength: { Max: 150 }
+Metrics/MethodLength: { Max: 25 }
+Metrics/AbcSize: { Max: 25 }
+Metrics/PerceivedComplexity: { Max: 10 }
+
+# Don't nag for documentation
+Style/Documentation: { Enabled: false }
+
+# Don't nag about the rakefile either
+Naming/AccessorMethodName: { Exclude: ['Rakefile'] }

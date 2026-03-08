@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+require_relative '../lib/backup_buddy'
+
+version = File.read(File.expand_path('../VERSION', __dir__)).strip
+dry_run = false
+
+parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: backup-buddy [options] <manifest.yml>'
+
+  opts.on('-n', '--dry-run', 'Show what would be transferred without doing it') do
+    dry_run = true
+  end
+
+  opts.on('-d', '--debug', 'Print rsync commands and enable verbose logging') do
+    require 'foghorn'
+    Foghorn.level = :debug
+  end
+
+  opts.on('-v', '--version', 'Print version') do
+    puts "backup-buddy #{version}"
+    exit
+  end
+
+  opts.on('-h', '--help', 'Show this help') do
+    puts opts
+    exit
+  end
+end
+
+parser.parse!
+manifest_path = ARGV[0]
+
+if manifest_path.nil?
+  puts parser
+  exit 1
+end
+
+unless File.exist?(manifest_path)
+  warn "Error: '#{manifest_path}' not found."
+  exit 1
+end
+
+manager = BackupBuddy::BackupManager.new(manifest_path, dry_run: dry_run)
+manager.run

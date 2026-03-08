@@ -1,0 +1,13 @@
+---
+name: Backup some home directories and files
+concurrency: 3
+backupDestination: /media/Some/Backup/Drive
+backupPaths:
+  - /var/www/html               # backup folders
+  - /home/your_user/.bashrc     # backup files (hidden ones too!)
+  - /home/your_user             # backup your entire home folder!
+  - /var/log/dmesg*             # file globbing support
+  - "myhost:/var/backups"       # remote paths (quote paths with colons!)
+ignorePatterns:
+  - .git
+  - '*.jpg'
