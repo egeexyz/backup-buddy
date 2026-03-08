@@ -8,7 +8,27 @@ Backup-Buddy is a dumb harness around rsync. It parses a YAML manifest, spawns l
 
 Backup-buddy reads in a YAML manifest and feeds the paths into a worker thread pool. If you got 10 folders and a concurrency of 3, it runs 3 rsyncs at a time until all 10 are done.
 
-Since rsync is symmetric, you can also use Backup-buddy as a **restore tool** — just swap the source and destination in your manifest.
+Since rsync is symmetric, you can also use Backup-buddy as a **restore tool** — just swap the source and destination in your manifest!
+
+From this:
+
+```yaml
+---
+name: "My Backup"
+backupDestination: "you@nas.local:/backups/egee/Documents"
+backupPaths:
+  - "/home/egee/Documents"
+```
+
+To this:
+
+```yaml
+---
+name: "My Restore"
+backupDestination: "/home/egee/Documents"
+backupPaths:
+  - "you@nas.local:/backups/egee/Documents"
+```
 
 ## What It Doesn't
 
@@ -20,9 +40,9 @@ It also does not compress or otherwise archive files - it simply copies them fro
 
 ## How It Started
 
-Every once in a while, I back up all my files. I got tired of doing it manually so I started using rsync. Then, I got tired of typing rsync so I write it into a script. Then, I got tired of typing the script so I wrote a program to do it for me.
+Every once in a while, I back up all my files. I got tired of doing it manually so I started using rsync. Then, I got tired of typing rsync so I scripted it. Then, I got tired of the script so I wrote a program to do it all for me.
 
-The first version was written in NodeJS so I got async for free. However, I learned without concurrency limits, rsync will happily take your system down. I like Ruby a bit better than JavaScript so I rewrote it and added some cool features like a thread pool.
+The first version was written in NodeJS so we got async for free. However, I quickly learned that without concurrency limits, rsync will happily take your system down. I like Ruby a bit better than JavaScript so I rewrote it to use a thread pool.
 
 ## Requirements
 
