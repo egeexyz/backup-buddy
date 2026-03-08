@@ -1,22 +1,50 @@
 # Backup-Buddy
-Backup your things with Rsync and NodeJS!
 
-Backup-Buddy is a convenience wrapper written in Node that uses Rsync to asynchronously back up your files and folders in parallel. It's super quick!
+Backup (or restore) your things with Rsync and Ruby!
 
-## How It Works
+Backup-Buddy is a dumb harness around rsync. It parses a YAML manifest, spawns lightweight rsync tasks, and runs them through a thread pool. The Ruby GIL releases during I/O, so all rsync processes genuinely run in parallel!
 
-Backup-buddy is a program written in NodeJS that parses a yaml file, constructs a list of arguments for rsync to run, and executes rsync processes for each backup path listed. This means if you have 10 folders to back up, Backup-buddy will invoke 10 rsync processes _at the same time_. Use with care!
+## What It Does
 
-Backup-buddy's uses yaml definition files to build commands that rsync will use. An example of a job file can be found [here](https://github.com/egeexyz/backup-buddy/blob/main/jobs/example.yaml).
+Backup-buddy reads in a YAML manifest and feeds the paths into a worker thread pool. If you got 10 folders and a concurrency of 3, it runs 3 rsyncs at a time until all 10 are done.
 
-## How To Use
+Since rsync is symmetric, you can also use Backup-buddy as a **restore tool** — just swap the source and destination in your manifest.
 
-From the terminal, first install it:
+## What It Doesn't
 
-`npm install -g backup-buddy`
+Backup-Buddy is designed specifically to be a dumb harness that spawns rsync workers using a yaml manifest and a cli as the entry point.
 
-`backup-buddy my_backup_file.yml`
+It does **not** manage SSH connections, users, or permissions - it simply invokes rsync and gets out of the way. Configure your remote hosts in `~/.ssh/config` and rsync will pick them up automatically.
 
-Backup-buddy's behavior should be identical to rsync's.
+It also does not compress or otherwise archive files - it simply copies them from one place to another. The previous version had a compression feature but it was complicated and I never used it so I removed it.
 
-For example, adding `/etc/` or `/etc/*` will back up all files (including folders & sub-folders) but not the etc folder itself. Adding `/etc` (without the trailing `/` or `*`) will backup the folder **and** everything inside it.
+## How It Started
+
+Every once in a while, I back up all my files. I got tired of doing it manually so I started using rsync. Then, I got tired of typing rsync so I write it into a script. Then, I got tired of typing the script so I wrote a program to do it for me.
+
+The first version was written in NodeJS so I got async for free. However, I learned without concurrency limits, rsync will happily take your system down. I like Ruby a bit better than JavaScript so I rewrote it and added some cool features like a thread pool.
+
+## Requirements
+
+- **Ruby** >= 3.1
+- **rsync** available to your system
+
+## SSH Configuration
+
+Backup-Buddy delegates all connection handling to rsync, which reads your `~/.ssh/config`. Set up your hosts there and then reference the host in your manifest paths.
+
+## Installation
+
+```bash
+gem install backup-buddy
+```
+
+## Usage
+
+```bash
+backup-buddy manifests/my_backup.yaml
+```
+
+## License
+
+MIT
