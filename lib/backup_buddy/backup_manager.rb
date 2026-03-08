@@ -31,6 +31,7 @@ module BackupBuddy
     def run
       valid_paths = validate_paths(@paths)
       return if valid_paths.empty?
+      return unless valid_destination?(@destination)
 
       print_header(valid_paths)
 
@@ -41,6 +42,14 @@ module BackupBuddy
     end
 
     private
+
+    def valid_destination?(dest)
+      return true unless dest.start_with?('/')
+      return true if File.directory?(dest)
+
+      Foghorn.error("Destination '#{dest}' does not exist or is not a directory. Please create it first.")
+      false
+    end
 
     def build_excludes(patterns)
       return '' unless patterns.is_a?(Array)

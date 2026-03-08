@@ -85,6 +85,12 @@ RSpec.describe BackupBuddy::BackupManager do
 
   after { manifest_file.unlink }
 
+  before do
+    allow(File).to receive(:directory?).and_call_original
+    allow(File).to receive(:directory?).with('/tmp/backup-buddy-test-dest').and_return(true)
+    allow(File).to receive(:directory?).with('/tmp/dest').and_return(true)
+  end
+
   subject { described_class.new(manifest_file.path) }
 
   describe '#initialize' do
@@ -178,6 +184,13 @@ RSpec.describe BackupBuddy::BackupManager do
       allow(subject).to receive(:execute_task).and_return(23)
 
       expect { subject.run }.to output(/FAILED/).to_stdout
+    end
+
+    it 'aborts and errors if the destination directory does not exist' do
+      allow(File).to receive(:directory?).with('/tmp/dest').and_return(false)
+
+      expect(Foghorn).to receive(:error).with(/does not exist or is not a directory/)
+      subject.run
     end
   end
 
