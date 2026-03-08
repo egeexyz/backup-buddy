@@ -22,8 +22,5 @@ jobs:
       - name: Verify rsync is available
         run: rsync --version | head -1
 
-      - name: Run unit tests
-        run: bundle exec rspec spec/unit
-
-      - name: Run integration tests
-        run: bundle exec rspec spec/integration
+      - name: Run test suite and linters
+        run: bundle exec rake
