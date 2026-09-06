@@ -6,6 +6,8 @@ Gemfile.lock
 # Gem build artifacts
 *.gem
 /pkg/
+/dist/*
+!/dist/.gitkeep
 
 # RSpec / Testing
 /coverage/
