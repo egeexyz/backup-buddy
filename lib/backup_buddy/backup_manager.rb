@@ -156,7 +156,7 @@ module BackupBuddy
     end
 
     def print_summary(tasks, exit_codes)
-      puts
+      Foghorn.space
       Foghorn.info('≈≈ Backup Summary ≈≈')
 
       tasks.each_with_index do |task, i|
